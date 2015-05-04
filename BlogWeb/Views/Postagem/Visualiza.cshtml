@@ -1,0 +1,103 @@
+﻿@model BlogWeb.ViewModels.PostagemModel
+@using (Html.BeginForm("Altera", "Postagem", FormMethod.Post))
+{
+
+    <fieldset>
+        <legend>Editar Postagem</legend>
+        @Html.HiddenFor(x => x.Id)
+
+        @Html.ValidationMessageFor(x => x.Titulo)
+        @Html.LabelFor(x => x.Titulo)
+        @Html.TextBoxFor(x => x.Titulo)
+
+        @Html.ValidationMessageFor(x => x.Conteudo)
+        @Html.LabelFor(x => x.Conteudo)
+        @Html.TextAreaFor(x => x.Conteudo)
+
+        @Html.ValidationMessageFor(x => x.DataPublicacao)
+        @Html.LabelFor(x => x.DataPublicacao)
+        @Html.TextBoxFor(x => x.DataPublicacao)
+
+        @Html.ValidationMessageFor(X => X.Publicado)
+        @Html.LabelFor(x => x.Publicado)
+        @Html.CheckBoxFor(x => x.Publicado)
+
+        @Html.DropDownListFor(x => x.AutorId, new SelectList(ViewBag.Usuarios, "Id", "Nome"), "Sem Autor")
+
+
+        @*@Html.ListBoxFor(x => x.Tags, new SelectList(ViewBag.Tags, "Id", "Nome"))
+            @Html.ValidationMessageFor(x => x.Tags)*@
+
+        @Html.ValidationMessage("tags")
+        <select id="tags" name="tags" multiple="multiple" style="display:none;">
+            @foreach (var item in ViewBag.tagsFinal)
+            {
+                if (@item.Value == 1)
+                {
+                    <option selected="selected" value="@item.Key.Id" id="option_@item.Key.Id">@item.Key.Nome</option>
+                }
+                else
+                {
+                    <option value="@item.Key.Id" id="option_@item.Key.Id">@item.Key.Nome</option>
+
+                }
+
+            }
+        </select>
+        <label>
+            Selecione as Tags:
+        </label>
+        <ul id="tagsList">
+            @foreach (var item in ViewBag.tagsFinal)
+            {
+                if (@item.Value == 1)
+                {
+                    <li class="selected" id="item_@item.Key.Id" onclick="clickItem(@item.Key.Id);">@item.Key.Nome</li>
+
+                }
+                else
+                {
+
+                    <li class="notSelected" id="item_@item.Key.Id" onclick="clickItem(@item.Key.Id);">@item.Key.Nome</li>
+                }
+
+            }
+        </ul>
+
+    </fieldset>
+    <input type="submit" value="Alterar" />
+
+    <style>
+        ul li.selected {
+            background-color: gray;
+        }
+    </style>
+}
+
+
+
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript">
+        function clickItem(id) {
+            var $item = $("#item_" + id);
+            var $option = $("#option_" + id);
+            if ($item.attr('class') == 'selected') {
+                $option.removeAttr('selected', true);
+                $('#tags').focus();
+                $item.addClass('notSelected');
+                $item.removeClass('selected');
+            } else {
+                $option.prop("selected", true)
+                $('#tags').focus();
+                $item.removeClass('notSelected');
+                $item.addClass('selected');
+            }
+        };
+    </script>
+}

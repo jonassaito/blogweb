@@ -1,0 +1,16 @@
+﻿@model List<BlogWeb.Models.Postagem>
+
+@foreach (var item in Model)
+{
+    <article>
+        <h2>@item.Titulo</h2>
+        @if (item.Autor != null)
+        {
+            <div>@item.Autor.Nome - @item.DataPublicacao</div>
+        }
+        else
+        {
+            <div>Sem Autor - @item.DataPublicacao</div>
+        }
+    </article>
+}

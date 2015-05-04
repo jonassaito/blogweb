@@ -1,0 +1,47 @@
+﻿@model int
+           <span id="contador">@Model</span>
+<br />
+<span onclick="contador()">Clique aqui para acessar a Action "Conta" do Controller "Contador" usando AJAX, retornando um JSON e atualizando a span id="contador".</span>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        function contador() {
+            var url = "@Url.Action("Conta","Contador")";
+            
+            //$.post(url, "", function () { },"String dataType")
+            //$.post(url, { }, function () {
+            //    var elemento = $("#contador");
+            //    elemento.html("Publicado");
+            //})
+
+
+            var DTO = {
+                Name: $('#contador').val()
+            };
+            //e.preventDefault();
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    //Fill div with results
+                    $("#contador").html(data);
+                    //alert(data);
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+            
+        }
+        function a(){
+            $('#contador').click(function (e) {
+               
+            });
+        }
+
+    </script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+}

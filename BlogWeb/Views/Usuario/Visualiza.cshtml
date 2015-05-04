@@ -1,0 +1,23 @@
+﻿@model BlogWeb.Models.Usuario
+
+@using (Html.BeginForm("Altera", "Usuario", FormMethod.Post))
+{
+    
+    @Html.ValidationMessage("alteracao.Invalida")
+
+    @Html.HiddenFor(u => u.Id)
+
+    @Html.LabelFor(u => u.Nome)
+    @Html.TextBoxFor(u => u.Nome)
+
+    @Html.LabelFor(u => u.Login)
+    @Html.TextBoxFor(u => u.Login)
+
+    @Html.LabelFor(u => u.Password)
+    @Html.PasswordFor(u => u.Password)
+
+    @Html.LabelFor(u => u.Email)
+    @Html.TextBoxFor(u => u.Email)
+
+    <input type="submit" value="Cadastrar" />
+}

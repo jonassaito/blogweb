@@ -1,0 +1,115 @@
+﻿@model BlogWeb.ViewModels.PostagemModel
+
+
+@using (Html.BeginForm("Adiciona", "Postagem", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Editar Postagem</legend>
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationMessage("postagem.Invalido")
+
+        @Html.ValidationMessageFor(p => p.Titulo)
+        @Html.LabelFor(p => p.Titulo, "Título:")
+        @Html.TextBoxFor(p => p.Titulo)
+
+
+        @Html.ValidationMessageFor(p => p.Conteudo)
+        @Html.LabelFor(p => p.Conteudo, "Conteudo:")
+        @Html.TextAreaFor(p => p.Conteudo)
+
+
+
+        @Html.ValidationMessageFor(p => p.DataPublicacao)
+        @Html.LabelFor(p => p.DataPublicacao, "Publicacao:")
+        @Html.TextBoxFor(p => p.DataPublicacao, new { @Value = @DateTime.Now.ToString() })
+
+
+        @Html.ValidationMessageFor(p => p.Publicado)
+        @Html.LabelFor(p => p.Publicado, "Publicado:")
+        @Html.CheckBoxFor(p => p.Publicado)
+
+        @Html.DropDownListFor(p => p.AutorId, new SelectList(ViewBag.Usuarios, "Id", "Nome"), "Sem Autor")
+
+        @*@Html.LabelFor(p => p.Tags);
+            @Html.ListBoxFor(p=>p.Tags,new SelectList(ViewBag.Tags,"Id","Nome"))
+            @Html.ValidationMessageFor(p=>p.Tags)*@
+
+
+        @Html.ValidationMessage("tags")
+        <select id="tags" name="tags" multiple="multiple" style="display:none;">
+            @foreach (var item in ViewBag.Tags)
+        {
+                <option value="@item.Id" id="option_@item.Id">@item.Nome</option>
+
+        }
+        </select>
+        <label>
+            Selecione as Tags:
+        </label>
+        <ul id="tagsList">
+            @foreach (var item in ViewBag.Tags)
+            {
+                <li class="notSelected" id="item_@item.Id" onclick="clickItem(@item.Id);">@item.Nome </li>
+
+            }
+        </ul>
+        </fieldset>
+        <input type="submit" value="Cadastrar" />
+
+
+
+        }
+
+
+
+        @section Scripts{
+
+            <script src="~/Scripts/jquery-1.10.2.js"></script>
+            <script src="~/Scripts/jquery.validate.js"></script>
+            <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+            <script type="text/javascript">
+                function clickItem(id) {
+                    var $item = $("#item_" + id);
+                    var $option = $("#option_" + id);
+                    if ($item.attr('class') == 'selected') {
+                        $option.removeAttr('selected', true);
+                        $('#tags').focus();
+                        $item.addClass('notSelected');
+                        $item.removeClass('selected');
+                    } else if ($item.attr('class') == 'notSelected') {
+                        $option.prop("selected", true)
+                        $('#tags').focus();
+                        $item.removeClass('notSelected');
+                        $item.addClass('selected');
+                    }
+                };
+            </script>
+
+        }
+
+        @*<form action="/Postagem/Adiciona" method="post">
+                @Html.ValidationMessage("postagem.Invalido");
+                @Html.ValidationMessage("titulo");
+                <label>
+                    Título:
+                    <input name="titulo" />
+                </label>
+                @Html.ValidationMessage("conteudo");
+                <label>
+                    Conteudo:
+                    <input name="conteudo" />
+                </label>
+                @Html.ValidationMessage("dataPublicacao");
+                <label>
+                    Data Publicacao:
+                    <input name="dataPublicacao" value="@DateTime.Now" />
+                </label>
+                @Html.ValidationMessage("publicado");
+                <label>
+                    Publicar?
+                    <input type="checkbox" checked="checked" name="publicado" />
+                </label>
+                <input type="submit" value="Cadastrar" />
+            </form>*@

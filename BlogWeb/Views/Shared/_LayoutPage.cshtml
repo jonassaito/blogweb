@@ -1,0 +1,29 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Blog Curso - ASP.NET MVC e Persistencia com NHibernate</title>
+    <link href="~/Content/Css/normalize.css" rel="stylesheet" />
+    <link href="~/Content/Css/blog.css" rel="stylesheet" />
+    <link href="~/Content/Css/fontello-codes.css" rel="stylesheet" />
+    <link href="~/Content/Css/fontello.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Partial("_MenuSuperior")
+    @Html.Partial("_Header")
+    <div class="conteudo">
+        <main>
+
+            @RenderBody()
+        </main>
+
+        @Html.Action("Index","Menu")
+    </div>
+    <footer>
+        Copyright
+    </footer>
+
+    @RenderSection("Scripts", false)
+</body>
+</html>

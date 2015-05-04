@@ -1,0 +1,130 @@
+﻿@model IList<BlogWeb.Models.Postagem>
+
+@Html.ActionLink("Novo Post", "Index", "novoPost")
+<style>
+    td {
+        vertical-align: top;
+    }
+</style>
+<table>
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Título</td>
+            <td>Conteúdo</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>
+                    @Convert.ToDateTime(item.DataPublicacao).ToShortDateString()<br />
+
+                    @item.Titulo                    @if (item.Autor != null)
+                    {
+                        <br />@:Autor: <b>@item.Autor.Nome</b>
+                    }
+
+                </td>
+                <td>
+                    @item.Conteudo
+                    @if (item.Tags.Count() > 0)
+                    {
+                        <b>Tags:</b>
+                        <ul>
+                            @foreach (var t in @item.Tags)
+                            {
+                                <li>@t.Nome</li>
+
+                            }
+                        </ul>
+
+                    }
+                </td>
+                <td style="white-space:nowrap;">
+                    @Html.ActionLink("Remover", "Remove", new { id = item.Id }, new { data_confirmprompt = "Are you sure you want to delete " + item.Titulo + "?"  , @class = "icon-cancel" })
+                    <br />
+                    @Html.RouteLink("Editar", "VerPost", new { id = item.Id }, new { @class = "icon-edit" })
+                    <br />
+
+                    @if (item.Publicado)
+                    {
+                        @*@: Publicado*@
+                        @*<input type="checkbox" id="publicar@(item.Id)" onclick="publicaPostagem(@item.Id);" checked="checked" />*@
+                        <span class="icon-cancel" style="cursor:pointer;" id="publicar@(item.Id)" onclick="publicaPostagem(@item.Id);">Não Publicar</span>
+                    }
+                    else
+                    {
+                        @*<input type="checkbox" id="publicar@(item.Id)" onclick="publicaPostagem(@item.Id);" />*@
+
+                        <span class="icon-edit" style="cursor:pointer;" id="publicar@(item.Id)" onclick="publicaPostagem(@item.Id);">Publicar</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts{
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('*[data-confirmprompt]').click(function (event) {
+                var promptText = $(this).attr('data-confirmprompt');
+                if (!confirm(promptText)) {
+                    event.preventDefault();
+                }
+            });
+        });
+
+
+        function publicaPostagem(postId) {
+            var url = "@Url.Action("PublicaNaoPublica","Postagem")";
+            //$.post(url, { id: postId }, function () {
+            //    var elemento = $("#publicar" + postId);
+            //    elemento.html("Publicado");
+            //})
+
+
+            $.ajax({
+                url: url,
+                data: { id: postId },
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    //$("#publicar" + postId).prop('checked', data);
+
+                    if (data) {
+
+                        $("#publicar" + postId).html("Não Publicar");
+                        $("#publicar" + postId).removeClass("icon-edit");
+                        $("#publicar" + postId).addClass("icon-cancel");
+                    } else {
+
+                        $("#publicar" + postId).html("Publicar");
+                        $("#publicar" + postId).removeClass("icon-cancel");
+                        $("#publicar" + postId).addClass("icon-edit");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+
+
+        }
+
+
+
+
+
+    </script>
+}

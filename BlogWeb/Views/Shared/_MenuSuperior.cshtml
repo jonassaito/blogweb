@@ -1,0 +1,17 @@
+﻿
+<nav>
+    <ul>
+        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+        <li>@Html.ActionLink("Posts", "Index", "Posts")</li>
+        <li>@Html.ActionLink("Usuario","Index","Usuario")</li>
+        @if (WebSecurity.IsAuthenticated)
+        {
+           <li>@Html.ActionLink("Sair","Logout","Login")</li>
+        }
+        else
+        {
+
+            <li>@Html.ActionLink("Entrar", "Index", "Login")</li>
+        }
+    </ul>
+</nav>

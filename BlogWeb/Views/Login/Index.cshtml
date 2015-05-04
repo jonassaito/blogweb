@@ -1,0 +1,22 @@
+﻿@model BlogWeb.ViewModels.UsuarioModel
+
+@using(Html.BeginForm("Autentica","Login",FormMethod.Post)){
+
+    @Html.ValidationMessage("login.Invalido")
+    
+    @Html.LabelFor(l => l.Login, "Login:")
+    @Html.TextBoxFor(l => l.Login)
+    
+    @Html.LabelFor(l => l.Password, "Senha:")
+    @Html.PasswordFor(l => l.Password, new { @Name = "senha" })
+    
+    <input type="submit" value="Entrar" />
+}
+@section Scripts{
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+}

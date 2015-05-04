@@ -1,0 +1,24 @@
+﻿<aside>
+    <h3>Autores</h3>
+    <ul>
+        @foreach (BlogWeb.Models.Usuario u in ViewBag.Autores)
+        {
+            <li>@Html.ActionLink(u.Nome, "BuscaPorAutor", "Busca", new { nome = u.Nome }, null)</li>
+        }
+    </ul>
+    <h3>Estatísticas</h3>
+    @if (((IEnumerable<dynamic>)ViewBag.Estatisticas).Count() > 0)
+    {
+        <ul>
+            @foreach (BlogWeb.Models.PostagensPorMes p in ViewBag.Estatisticas)
+            {
+                <li><a href="~/Busca/Ano/@p.Ano/Mes/@p.Mes">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(p.Mes) - @p.Ano (@p.Quantidade)</a></li>
+            }
+        </ul>
+    }
+    else
+    {
+        @:Não há publicações
+        }
+
+</aside>

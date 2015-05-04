@@ -1,0 +1,28 @@
+﻿@model IList<BlogWeb.Models.Usuario>
+
+
+
+@Html.ActionLink("Novo Usuário", "Index", "novoUsuario")
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Login</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Nome</td>
+                <td>@item.Login</td>
+                <td>@item.Email</td>
+                <td>@Html.ActionLink("Editar", "Visualiza", new { id = item.Id }, new { @class = "icon-edit" })</td>
+            </tr>
+        }
+    </tbody>
+</table>
